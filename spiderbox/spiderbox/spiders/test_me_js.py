@@ -1,10 +1,15 @@
 import scrapy
 from scrapy_splash import SplashRequest
+"""
+Test de scrapy + splash pour récupérer une donnée html construite par un js.
+Retourne yes dans le terminal si le js est actif.
+
+    scrapy crawl test_me_js
+"""
+
 
 class TestMeJsSpider(scrapy.Spider):
     name = "test_me_js"
-    #start_urls = ["https://www.leforem.be/particuliers/offres-emploi-recherche-par-arborescence.html"]
-    # start_urls = ["https://www.leforem.be/particuliers/offres-emploi-recherche-par-arborescence.html"]
     start_urls = ["https://www.whatismybrowser.com/detect/is-javascript-enabled"]
 
     def start_requests(self):
