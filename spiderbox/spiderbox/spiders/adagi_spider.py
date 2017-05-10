@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.loader import ItemLoader
+from spiderbox.items import EvenementItem
 """
 Récupération des informations concernant les foires médiévales
 Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
@@ -16,20 +18,40 @@ class AdagiSpider(scrapy.Spider):
         ]
 
     def parse(self, response):
+        events = []
+
         medievals = response.xpath( '/html/body/table[4]/tr' )
         for medieval in medievals:
+            # get value
+            title = medieval.xpath( 'td/font/text()' ).extract()[1],
             pays = self.parse_pays( medieval )
             site_web = self.parse_site_web( medieval )
             email = self.parse_email( medieval )
 
-            yield {
-                'dates' : medieval.xpath( 'td/font/text()' ).extract_first(),
-                'pays' : pays,
-                'lieu' : medieval.xpath( 'td/font/a/text()' ).extract_first(),
-                'titre' : medieval.xpath( 'td/font/text()' ).extract_first(),
-                'site_web' : site_web,
-                'email' : email
-            }
+            # add value to item
+            l = ItemLoader(item=EvenementItem(), response=response)
+            l.add_value( 'title', title )
+            l.add_value( 'website', site_web )
+            l.add_value( 'description', None )
+            #l.add_value( 'dates', site_web )
+            l.add_value( 'pictures', None )
+            l.add_value( 'adresses', site_web )
+            l.add_value( 'booking_url', site_web )
+            l.add_value( 'contacts', site_web )
+            l.add_value( 'tags', site_web )
+            l.add_value( 'registred_by', site_web )
+            l.add_value( 'added_date', site_web )
+            l.add_value( 'source_url', site_web )
+            events.append( l.load_item() )
+
+        return events
+
+#                'dates' : medieval.xpath( 'td/font/text()' ).extract_first(),
+#                'pays' : pays,
+#                'lieu' : medieval.xpath( 'td/font/a/text()' ).extract_first(),
+#                'titre' : medieval.xpath( 'td/font/text()' ).extract_first(),
+#                'site_web' : site_web,
+#                'email' : email
 
     def parse_pays( self, selector ):
         """

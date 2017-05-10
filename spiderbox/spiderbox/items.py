@@ -7,8 +7,27 @@
 
 import scrapy
 
+class DayItem( scrapy.Item ):
+    startAt = scrapy.Field()
+    finishAt = scrapy.Field()
+    price = scrapy.Field()
+    comment = scrapy.Field()
 
-class SpiderboxItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class DatesItem( scrapy.Item):
+    begin_date = scrapy.Field()
+    end_date = scrapy.Field()
+    days = DayItem()
+
+class EvenementItem(scrapy.Item):
+    title = scrapy.Field()
+    description = scrapy.Field()
+    website = scrapy.Field()
+    dates = DatesItem()
+    pictures = scrapy.Field()
+    adresses = scrapy.Field()
+    booking_url = scrapy.Field()
+    contacts = scrapy.Field()
+    tags = scrapy.Field()
+    registred_by = scrapy.Field()
+    added_date = scrapy.Field()
+    source_url = scrapy.Field()
