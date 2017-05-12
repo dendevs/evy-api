@@ -1,8 +1,5 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import scrapy
-from scrapy.loader import ItemLoader
-from spiderbox.items import EvenementItem
+
 """
 Récupération des informations concernant les foires médiévales
 Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
@@ -10,41 +7,41 @@ Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
     scrapy crawl adagi -o adagi.json
 """
 
+import scrapy
+from scrapy.loader import ItemLoader
+from spiderbox.items import EvenementItem, EvenementLoader
 
 class AdagiSpider(scrapy.Spider):
+
     name = "adagi"
     start_urls = [
             'http://www.adagionline.com/calendrier.asp',
         ]
 
     def parse(self, response):
+
+        print 'Response'
+        print response
         events = []
 
-        medievals = response.xpath( '/html/body/table[4]/tr' )
-        for medieval in medievals:
-            # get value
-            title = medieval.xpath( 'td/font/text()' ).extract()[1],
-            pays = self.parse_pays( medieval )
-            site_web = self.parse_site_web( medieval )
-            email = self.parse_email( medieval )
+        for medieval in response.xpath( '//html/body/table[4]/tr' ):
+            print 'selector'
+            print medieval
+            event_loader = EvenementLoader( item=EvenementItem(), selector=medieval )
+            event_loader.add_xpath( 'title', 'td/font/text()' )
+#            l.add_value( 'dates', site_web )
+#            l.add_value( 'pictures', None )
+#            l.add_value( 'adresses', site_web )
+#            l.add_value( 'booking_url', site_web )
+#            l.add_value( 'contacts', site_web )
+#            l.add_value( 'tags', site_web )
+#            l.add_value( 'registred_by', site_web )
+#            l.add_value( 'added_date', site_web )
+#            l.add_value( 'source_url', site_web )
+            events.append( event_loader.load_item() )
+            break
 
-            # add value to item
-            l = ItemLoader(item=EvenementItem(), response=response)
-            l.add_value( 'title', title )
-            l.add_value( 'website', site_web )
-            l.add_value( 'description', None )
-            #l.add_value( 'dates', site_web )
-            l.add_value( 'pictures', None )
-            l.add_value( 'adresses', site_web )
-            l.add_value( 'booking_url', site_web )
-            l.add_value( 'contacts', site_web )
-            l.add_value( 'tags', site_web )
-            l.add_value( 'registred_by', site_web )
-            l.add_value( 'added_date', site_web )
-            l.add_value( 'source_url', site_web )
-            events.append( l.load_item() )
-
-        return events
+        return event_loader.load_item()
 
 #                'dates' : medieval.xpath( 'td/font/text()' ).extract_first(),
 #                'pays' : pays,
@@ -57,6 +54,7 @@ class AdagiSpider(scrapy.Spider):
         """
         Transforme l'image drapeau en une valeur fr,be,... désignant le pays
         """
+
         pays = ''
         tmp_pays = selector.xpath( 'td[2]/font/img/@src' ).extract_first()
 
@@ -71,6 +69,7 @@ class AdagiSpider(scrapy.Spider):
         """
         Récupére l'url du 1er site 1er site web de l'événement.
         """
+
         site_web = ''
         tmp_site_web = selector.xpath( 'td[3]/font/a/@href' ).extract_first(),
 
@@ -86,6 +85,7 @@ class AdagiSpider(scrapy.Spider):
         Récupération et reforme l'email se trouvant avant ou aprés le site web.
         Note: les cas avec plusieurs sites web puis emails ne sont pas géré.
         """
+
         email = ''
 
         # email is after website
