@@ -102,3 +102,5 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 # Config for splash ( https://blog.scrapinghub.com/2015/03/02/handling-javascript-in-scrapy-with-splash/ )
 SPLASH_URL = 'http://localhost:8050/'
 
+# set utf-8 in json output
+FEED_EXPORT_ENCODING = 'utf8'
