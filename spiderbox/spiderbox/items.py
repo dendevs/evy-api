@@ -13,25 +13,23 @@ from spiderbox.processors import Ucfirst, TakeNth, TakeSecond, SaveSingle, TakeD
 
 class DayItem( scrapy.Item ):
 
-    startAt = scrapy.Field()
-    finishAt = scrapy.Field()
+    start = scrapy.Field()
+    finish = scrapy.Field()
     price = scrapy.Field()
     comment = scrapy.Field()
 
-class DatesItem( scrapy.Item ):
+class DateItem( scrapy.Item ):
 
-    begin_date = scrapy.Field()
-    end_date = scrapy.Field()
-    #days = scrapy.Field( serializer=DayItem )
-    #days = scrapy.Field( )
-    pass
+    begin = scrapy.Field()
+    end = scrapy.Field()
+    label = scrapy.Field()
+    days = scrapy.Field()
 
 class EvenementItem(scrapy.Item):
 
     title = scrapy.Field()
     description = scrapy.Field()
     website = scrapy.Field()
-    #dates = scrapy.Field( serializer=DatesItem )
     dates = scrapy.Field()
     pictures = scrapy.Field()
     adresses = scrapy.Field()
@@ -51,22 +49,22 @@ class EvenementLoader(ItemLoader): # specific adagi
     title_in = TakeSecond()
     title_out = SaveSingle()
 
-    #dates_in = TakeDates()
-    #dates_out = SaveDates()
+class DateLoader( ItemLoader ):
 
-class DatesLoader( ItemLoader ):
-
-    default_item_class = DatesItem()
+    default_item_class = DateItem()
     default_input_processor = Identity()
     default_output_processor = Identity()
 
-    begin_date_in = TakeFirst()
-    begin_date_out = SaveSingle()
+    begin_in = TakeFirst()
+    begin_out = SaveSingle()
 
-    end_date_in = TakeFirst()
-    end_date_out = SaveSingle()
+    end_in = TakeFirst()
+    end_out = SaveSingle()
 
-class DayItem( ItemLoader ):
+    label_in = TakeFirst()
+    label_out = SaveSingle()
+
+class DayLoader( ItemLoader ):
 
     default_item_class = DayItem()
     default_input_processor = Identity()
