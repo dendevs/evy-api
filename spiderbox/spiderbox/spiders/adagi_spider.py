@@ -9,7 +9,7 @@ Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
 
 import scrapy
 from scrapy.loader import ItemLoader
-from spiderbox.items import EvenementItem, EvenementLoader
+from spiderbox.items import EvenementItem, EvenementLoader, DatesItem, DatesLoader
 
 class AdagiSpider(scrapy.Spider):
 
@@ -20,8 +20,6 @@ class AdagiSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        print 'Response'
-        print response
         events = []
 
         for medieval in response.xpath( '//html/body/table[4]/tr' ):
@@ -29,6 +27,9 @@ class AdagiSpider(scrapy.Spider):
             print medieval
             event_loader = EvenementLoader( item=EvenementItem(), selector=medieval )
             event_loader.add_xpath( 'title', 'td/font/text()' )
+            #event_loader.add_xpath( 'dates', 'td/font/text()' )
+            event_loader.add_value( 'dates', self.get_dates( medieval ) )
+
 #            l.add_value( 'dates', site_web )
 #            l.add_value( 'pictures', None )
 #            l.add_value( 'adresses', site_web )
@@ -41,7 +42,7 @@ class AdagiSpider(scrapy.Spider):
             events.append( event_loader.load_item() )
             break
 
-        return event_loader.load_item()
+        return events
 
 #                'dates' : medieval.xpath( 'td/font/text()' ).extract_first(),
 #                'pays' : pays,
@@ -49,6 +50,15 @@ class AdagiSpider(scrapy.Spider):
 #                'titre' : medieval.xpath( 'td/font/text()' ).extract_first(),
 #                'site_web' : site_web,
 #                'email' : email
+
+    def get_dates( self, medieval ):
+        dates_loader = DatesLoader( item=DatesItem(), selector=medieval )
+        dates_loader.add_xpath( 'begin_date', 'td/font/text()' )
+        dates_loader.add_xpath( 'end_date', 'td/font/text()' )
+        print '-------------------------'
+        print dates_loader.load_item()
+        return dates_loader.load_item()
+
 
     def parse_pays( self, selector ):
         """
