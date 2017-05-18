@@ -8,7 +8,7 @@
 import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Compose, TakeFirst, MapCompose, Join, Identity
-from spiderbox.processors import Ucfirst, TakeNth, TakeSecond, SaveSingle, TakeDates, SaveDates
+from spiderbox.processors import Ucfirst, TakeNth, TakeSecond, SaveSingle, TakeFirstOrEmptyString
 
 
 class DayItem( scrapy.Item ):
@@ -58,7 +58,7 @@ class DateLoader( ItemLoader ):
     begin_in = TakeFirst()
     begin_out = SaveSingle()
 
-    end_in = TakeFirst()
+    end_in = Identity()
     end_out = SaveSingle()
 
     label_in = TakeFirst()
@@ -68,9 +68,7 @@ class DayLoader( ItemLoader ):
 
     default_item_class = DayItem()
     default_input_processor = Identity()
-    default_output_processor = Identity()
-
-
+    default_output_processor = SaveSingle()
 
 
 # http://stackoverflow.com/questions/25095233/correct-way-to-nest-item-data-in-scrapy

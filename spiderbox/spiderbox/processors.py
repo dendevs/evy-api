@@ -19,7 +19,7 @@ class SaveSingle( object ):
         self.separator = separator
 
     def __call__( self, values ):
-        value = None
+        value = '-'
         if 0 < len( values ):
             value = values[0].replace( ' - ', '' )
         return value
@@ -30,11 +30,23 @@ class Ucfirst(object):
         self.separator = separator
 
     def __call__(self, values):
-        value = None
+        value = ''
         if 0 < len( values ):
             value = values[0]
         return value
 #
+
+class TakeFirstOrEmptyString( object ):
+
+    def __init__( self, separator=u' ' ):
+        self.separator = separator
+        self.nth = TakeNth( nth=0 )
+
+    def __call__( self, values ):
+
+        print '------------------------------>'
+        print self.nth( values )
+        return self.nth( values )
 
 class TakeSecond(object):
 
@@ -52,8 +64,9 @@ class TakeNth(object):
         self.nth = nth
 
     def __call__( self, values ):
-        value = None
+        value = ''
         id_value = self.nth
+        print values
         if self.nth <  len( values ):
             value = values[self.nth]
 
@@ -68,5 +81,5 @@ class TakeDates( object ):
         if 0 < len( values ):
             value = values[0]
         else:
-            value = None
+            value = ''
         return value
