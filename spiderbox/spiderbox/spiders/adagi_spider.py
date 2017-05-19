@@ -12,6 +12,8 @@ from scrapy.loader import ItemLoader
 from spiderbox.items import EvenementItem, EvenementLoader
 from spiderbox.items import DateItem, DateLoader
 from spiderbox.items import DayItem, DayLoader
+from spiderbox.items import PictureItem, PictureLoader
+from spiderbox.items import AdresseItem, AdresseLoader
 
 class AdagiSpider(scrapy.Spider):
 
@@ -25,14 +27,11 @@ class AdagiSpider(scrapy.Spider):
         events = []
 
         for medieval in response.xpath( '//html/body/table[4]/tr' ):
-            print 'selector'
-            print medieval
             event_loader = EvenementLoader( item=EvenementItem(), selector=medieval )
             event_loader.add_xpath( 'title', 'td/font/text()' )
             event_loader.add_value( 'dates', self.get_dates( medieval ) )
-
-#            l.add_value( 'dates', site_web )
-#            l.add_value( 'pictures', None )
+            event_loader.add_value( 'pictures', self.get_pictures( medieval ) )
+            event_loader.add_value( 'adresses', self.get_adresses( medieval ) )
 #            l.add_value( 'adresses', site_web )
 #            l.add_value( 'booking_url', site_web )
 #            l.add_value( 'contacts', site_web )
@@ -67,6 +66,16 @@ class AdagiSpider(scrapy.Spider):
         days_loader.add_value( 'price', '' )
         days_loader.add_value( 'comment', '' )
         return days_loader.load_item()
+
+    def get_pictures( self, medieval ):
+        pictures_loader = PictureLoader( item=PictureItem(), selector=medieval )
+        return pictures_loader.load_item()
+
+    def get_adresses( self, medieval ):
+        adresses_loader = AdresseLoader( item=AdresseItem(), selector=medieval )
+        adresses_loader.add_xpath( 'pays', 'td[2]/font/img/@src' )
+        adresses_loader.add_xpath( 'lieu', 'td/font/a/text()' )
+        return adresses_loader.load_item()
 
     def parse_pays( self, selector ):
         """

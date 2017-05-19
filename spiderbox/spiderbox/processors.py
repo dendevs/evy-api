@@ -1,6 +1,22 @@
 # -*- coding: utf-8 -*
 
 #
+
+class SaveMulti( object ):
+
+    def __init__( self, separator=u' '):
+        self.separator = separator
+
+    def __call__( self, values ):
+        print len( values )
+        if len( values ) == 0:
+            value = list()
+        elif not values[0]:
+            value = list()
+        else:
+            value = values
+        return value
+
 class SaveSingle( object ):
 
     def __init__( self, separator=u' '):
@@ -47,3 +63,40 @@ class TakeNth(object):
             value = values[self.nth]
 
         return value
+
+class TakePays( object ):
+    """
+    Transforme l'image drapeau en une valeur fr,be,... désignant le pays
+    """
+
+    def __init__( self, separator=u' ' ):
+        self.separator = separator
+
+    def __call__( self, values ):
+        pays = ''
+
+        if len( values ) == 1:
+            tmp = values[0]
+            pays = tmp.split( '/' )[1].split( '.' )[0]
+
+            if pays == 'fr':
+                pays = 'France'
+            elif pays == 'be':
+                pays = 'Belgique'
+            else:
+                pays = ''
+
+        return pays
+
+#
+class ShowMe( object ):
+
+    def __init__( self, separator=u' ', nth=0 ):
+        self.separator = separator
+
+    def __call__( self, values ):
+        print 'VALUES****************************'
+        print values
+        for  value in values:
+            print 'value %s' % ( value )
+        return values
