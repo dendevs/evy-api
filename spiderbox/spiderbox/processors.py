@@ -64,6 +64,16 @@ class TakeNth(object):
 
         return value
 
+class TakeEventUrl( object ):
+
+    def __init__( self, separator=u' ' ):
+        self.separator = separator
+
+    def __call__( self, values ):
+        print 'VALUES------------------------------------->'
+        print values
+        return values
+
 class TakePays( object ):
     """
     Transforme l'image drapeau en une valeur fr,be,... désignant le pays

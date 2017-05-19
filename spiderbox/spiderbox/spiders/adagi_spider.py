@@ -32,6 +32,7 @@ class AdagiSpider(scrapy.Spider):
             event_loader.add_value( 'dates', self.get_dates( medieval ) )
             event_loader.add_value( 'pictures', self.get_pictures( medieval ) )
             event_loader.add_value( 'adresses', self.get_adresses( medieval ) )
+            event_loader.add_xpath( 'event_url', 'td[3]/font/a/@href' )
 #            l.add_value( 'adresses', site_web )
 #            l.add_value( 'booking_url', site_web )
 #            l.add_value( 'contacts', site_web )
@@ -44,10 +45,6 @@ class AdagiSpider(scrapy.Spider):
 
         return events
 
-#                'dates' : medieval.xpath( 'td/font/text()' ).extract_first(),
-#                'pays' : pays,
-#                'lieu' : medieval.xpath( 'td/font/a/text()' ).extract_first(),
-#                'titre' : medieval.xpath( 'td/font/text()' ).extract_first(),
 #                'site_web' : site_web,
 #                'email' : email
 

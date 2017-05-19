@@ -8,7 +8,7 @@
 import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Compose, TakeFirst, MapCompose, Join, Identity
-from spiderbox.processors import TakeSecond, SaveSingle, SaveMulti, ShowMe, TakePays
+from spiderbox.processors import TakeSecond, SaveSingle, SaveMulti, ShowMe, TakePays, TakeEventUrl
 
 
 class AdresseItem( scrapy.Item ):
@@ -53,6 +53,7 @@ class EvenementItem(scrapy.Item):
     dates = scrapy.Field()
     pictures = scrapy.Field()
     adresses = scrapy.Field()
+    event_url = scrapy.Field()
     booking_url = scrapy.Field()
     contacts = scrapy.Field()
     tags = scrapy.Field()
@@ -72,6 +73,9 @@ class EvenementLoader(ItemLoader): # specific adagi
     pictures_out = SaveMulti()
 
     adresses_out = SaveMulti()
+
+    event_url_in = TakeEventUrl()
+    event_url_out = SaveSingle()
 
 class DateLoader( ItemLoader ):
 
