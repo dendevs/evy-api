@@ -5,7 +5,7 @@
 # Role
 
 * Récupérer des informations sur différents sites.
-* Formater les informations afin de les stocké.
+* Formater les informations afin de les stocker.
 
 # Installation
 
