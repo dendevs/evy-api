@@ -8,12 +8,15 @@ Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
 """
 
 import scrapy
+import datetime
 from scrapy.loader import ItemLoader
 from spiderbox.items import EvenementItem, EvenementLoader
 from spiderbox.items import DateItem, DateLoader
 from spiderbox.items import DayItem, DayLoader
 from spiderbox.items import PictureItem, PictureLoader
 from spiderbox.items import AdresseItem, AdresseLoader
+from spiderbox.items import ContactItem, ContactLoader
+from spiderbox.items import TagItem, TagLoader
 
 class AdagiSpider(scrapy.Spider):
 
@@ -25,6 +28,7 @@ class AdagiSpider(scrapy.Spider):
     def parse(self, response):
 
         events = []
+        now = datetime.datetime.now().isoformat()
 
         for medieval in response.xpath( '//html/body/table[4]/tr' ):
             event_loader = EvenementLoader( item=EvenementItem(), selector=medieval )
@@ -33,12 +37,14 @@ class AdagiSpider(scrapy.Spider):
             event_loader.add_value( 'pictures', self.get_pictures( medieval ) )
             event_loader.add_value( 'adresses', self.get_adresses( medieval ) )
             event_loader.add_xpath( 'event_url', 'td[3]/font/a/@href' )
-#            l.add_value( 'adresses', site_web )
+            event_loader.add_value( 'registred_by', 'AdagiSpider' )
+            event_loader.add_value( 'added_date', now )
+            event_loader.add_value( 'contacts', self.get_contacts( medieval ) )
+            event_loader.add_value( 'tags', self.get_tags( medieval ) )
+            #event_loader.add_value( 'source_url', '' )
 #            l.add_value( 'booking_url', site_web )
 #            l.add_value( 'contacts', site_web )
 #            l.add_value( 'tags', site_web )
-#            l.add_value( 'registred_by', site_web )
-#            l.add_value( 'added_date', site_web )
 #            l.add_value( 'source_url', site_web )
             events.append( event_loader.load_item() )
             break
@@ -74,35 +80,14 @@ class AdagiSpider(scrapy.Spider):
         adresses_loader.add_xpath( 'lieu', 'td/font/a/text()' )
         return adresses_loader.load_item()
 
-    def parse_pays( self, selector ):
-        """
-        Transforme l'image drapeau en une valeur fr,be,... désignant le pays
-        """
+    def get_contacts( self, medieval ):
+        contacts_loader = ContactLoader( item=ContactItem(), selector=medieval )
+        contacts_loader.add_xpath( 'email', 'td[3]/font/a[2]/@href' )
+        return contacts_loader.load_item()
 
-        pays = ''
-        tmp_pays = selector.xpath( 'td[2]/font/img/@src' ).extract_first()
-
-        if tmp_pays:
-            tmp_pays = tmp_pays.split( "/" )
-            if tmp_pays:
-                pays = tmp_pays[1].split( '.' )[0]
-
-        return pays
-
-    def parse_site_web( self, selector ):
-        """
-        Récupére l'url du 1er site 1er site web de l'événement.
-        """
-
-        site_web = ''
-        tmp_site_web = selector.xpath( 'td[3]/font/a/@href' ).extract_first(),
-
-        if tmp_site_web[0] is not None :
-            tmp_site_web = tmp_site_web[0]
-            if 'javascript' not in tmp_site_web :
-                site_web = tmp_site_web
-
-        return site_web
+    def get_tags( self, medieval ):
+        tags_loader = TagLoader( item=TagItem(), selector=medieval )
+        return tags_loader.load_item()
 
     def parse_email( self, selector ):
         """
@@ -128,3 +113,7 @@ class AdagiSpider(scrapy.Spider):
 # TODO
 # Ajouter la source ( url;nom;email )
 # Ajouter les foires renaissance et celtic
+# Le parse du site web et url doit etre revut. Le mail peut etre en 1er position ou 3eme ou neant
+# RMQ
+# certains loader sont au pluriels alors qu'ils sont utiliser pour fonctionne sur un seul élément.
+# Comment serait géré une liste de tags ? un tableau remplit par un loader tag?

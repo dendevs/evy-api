@@ -23,7 +23,7 @@ class SaveSingle( object ):
         self.separator = separator
 
     def __call__( self, values ):
-        value = '-'
+        value = ''
         if 0 < len( values ):
             value = values[0].replace( ' - ', '' )
         return value
@@ -105,8 +105,9 @@ class ShowMe( object ):
         self.separator = separator
 
     def __call__( self, values ):
-        print 'VALUES****************************'
+        print '**************<DEBUG**************'
         print values
         for  value in values:
             print 'value %s' % ( value )
+        print '***************DEBUG>**************'
         return values

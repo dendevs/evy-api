@@ -11,6 +11,17 @@ from scrapy.loader.processors import Compose, TakeFirst, MapCompose, Join, Ident
 from spiderbox.processors import TakeSecond, SaveSingle, SaveMulti, ShowMe, TakePays, TakeEventUrl
 
 
+class TagItem( scrapy.Item ):
+    pass
+
+class ContactItem( scrapy.Item ):
+    firstname = scrapy.Field()
+    lastname = scrapy.Field()
+    gender = scrapy.Field()
+    email = scrapy.Field()
+    phone = scrapy.Field()
+    role = scrapy.Field()
+
 class AdresseItem( scrapy.Item ):
 
     lieu = scrapy.Field()
@@ -77,6 +88,14 @@ class EvenementLoader(ItemLoader): # specific adagi
     event_url_in = TakeEventUrl()
     event_url_out = SaveSingle()
 
+    contacts_out = SaveMulti()
+
+    tags_out = SaveMulti()
+
+    registred_by_out = SaveSingle()
+
+    added_date_out = SaveSingle()
+
 class DateLoader( ItemLoader ):
 
     default_item_class = DateItem()
@@ -115,6 +134,21 @@ class AdresseLoader( ItemLoader ):
 
     pays_in = TakePays()
     pays_out = SaveSingle()
+
+class ContactLoader( ItemLoader ):
+
+    default_item_class = ContactItem()
+    default_input_processor = Identity()
+    default_output_processor = Identity()
+
+    email_in = TakeFirst()
+    email_out = ShowMe()
+
+class TagLoader( ItemLoader ):
+
+    default_item_class = TagItem()
+    default_input_processor = Identity()
+    default_output_processor = Identity()
 
 
 
