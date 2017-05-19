@@ -1,18 +1,6 @@
 # -*- coding: utf-8 -*
 
 #
-class SaveDates( object ):
-
-    def __init__( self, separator=u' '):
-        self.separator = separator
-
-    def __call__( self, values ):
-        dates = None
-        if 0 < len( values ):
-            value = values[0]
-            dates = { 'begin_date': '', 'end_date': '', 'label': value }
-        return dates
-
 class SaveSingle( object ):
 
     def __init__( self, separator=u' '):
@@ -36,18 +24,6 @@ class Ucfirst(object):
         return value
 #
 
-class TakeFirstOrEmptyString( object ):
-
-    def __init__( self, separator=u' ' ):
-        self.separator = separator
-        self.nth = TakeNth( nth=0 )
-
-    def __call__( self, values ):
-
-        print '------------------------------>'
-        print self.nth( values )
-        return self.nth( values )
-
 class TakeSecond(object):
 
     def __init__( self, separator=u' ' ):
@@ -70,16 +46,4 @@ class TakeNth(object):
         if self.nth <  len( values ):
             value = values[self.nth]
 
-        return value
-
-class TakeDates( object ):
-
-    def __init__( self, separator=u' ' ):
-        self.separator = separator
-
-    def __call__( self, values ):
-        if 0 < len( values ):
-            value = values[0]
-        else:
-            value = ''
         return value

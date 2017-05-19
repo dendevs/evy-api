@@ -8,7 +8,7 @@
 import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Compose, TakeFirst, MapCompose, Join, Identity
-from spiderbox.processors import Ucfirst, TakeNth, TakeSecond, SaveSingle, TakeFirstOrEmptyString
+from spiderbox.processors import TakeSecond, SaveSingle
 
 
 class DayItem( scrapy.Item ):
