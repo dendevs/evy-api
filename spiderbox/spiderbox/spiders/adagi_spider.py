@@ -3,6 +3,7 @@
 """
 Récupération des informations concernant les foires médiévales
 Informations Récupéré sur le site http://www.adagionline.com/calendrier.asp.
+version: 0.1
 
     scrapy crawl adagi -o adagi.json
 """
@@ -112,8 +113,16 @@ class AdagiSpider(scrapy.Spider):
 
 # TODO
 # Ajouter la source ( url;nom;email )
+
 # Ajouter les foires renaissance et celtic
+
 # Le parse du site web et url doit etre revut. Le mail peut etre en 1er position ou 3eme ou neant
+
+# Definir si un champs doit etre vide ou non existant. Spider est responsable de donné une date structuré ou simplement de prendre des valeurs et les envoyers?
+
+# Ajouter un id événement ?
+
+
 # RMQ
 # certains loader sont au pluriels alors qu'ils sont utiliser pour fonctionne sur un seul élément.
 # Comment serait géré une liste de tags ? un tableau remplit par un loader tag?
