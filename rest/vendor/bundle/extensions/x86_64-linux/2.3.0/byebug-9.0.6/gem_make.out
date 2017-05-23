@@ -1,0 +1,19 @@
+current directory: /home/dendev/public_html/evy-api/rest/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+/usr/bin/ruby2.3 -r ./siteconf20170522-29924-yg2twl.rb extconf.rb
+creating Makefile
+
+current directory: /home/dendev/public_html/evy-api/rest/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /home/dendev/public_html/evy-api/rest/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.so
+
+current directory: /home/dendev/public_html/evy-api/rest/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20170522-29924-1gq60ba/byebug
