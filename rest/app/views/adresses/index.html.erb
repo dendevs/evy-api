@@ -1,0 +1,22 @@
+<h1>Adresses</h1>
+
+<table>
+  <tr>
+    <th>Pays</th>
+    <th>Province</th>
+  </tr>
+ 
+  <% @adresses.each do |adresse| %>
+    <tr>
+      <td><%= adresse.pays%></td>
+      <td><%= adresse.province%></td>
+      <td><%= link_to 'Show', adresse_path(adresse) %></td>
+      <td><%= link_to 'Edit', edit_adresse_path(adresse) %></td>
+      <td><%= link_to 'Destroy', adresse_path(adresse),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'New adresse', new_adresse_path %>

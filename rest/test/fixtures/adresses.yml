@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pays: MyString
+  province: MyString
+  code_postal: MyString
+  ville: MyString
+  rue: MyString
+  numero: MyString
+  boite: MyString
+  complement: MyString
+  latitude: 
+  latitude: 
+  longitude: 
+  longitude: 
+  evenement: one
+
+two:
+  pays: MyString
+  province: MyString
+  code_postal: MyString
+  ville: MyString
+  rue: MyString
+  numero: MyString
+  boite: MyString
+  complement: MyString
+  latitude: 
+  latitude: 
+  longitude: 
+  longitude: 
+  evenement: two

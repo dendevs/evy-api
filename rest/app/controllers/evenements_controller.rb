@@ -28,7 +28,7 @@ class EvenementsController < ApplicationController
     end
 
     def update
-        @evenement.find( params[:id] )
+        @evenement = Evenement.find( params[:id] )
 
         if @evenement.update( evenement_params )
             redirect_to @evenement

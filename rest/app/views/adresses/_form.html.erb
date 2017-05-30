@@ -1,13 +1,13 @@
-<%= form_for @evenement do |f| %>
+<%= form_for @adresse do |f| %>
  
-  <% if @evenement.errors.any? %>
+  <% if @adresse.errors.any? %>
     <div id="error_explanation">
       <h2>
-        <%= pluralize(@evenement.errors.count, "error") %> prohibited
-        this evenement from being saved:
+        <%= pluralize(@adresse.errors.count, "error") %> prohibited
+        this adresse from being saved:
       </h2>
       <ul>
-        <% @evenement.errors.full_messages.each do |msg| %>
+        <% @adresse.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
         <% end %>
       </ul>
